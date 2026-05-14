@@ -1,0 +1,150 @@
+// app/layout.tsx
+import Header from "@/components/header";
+import "./globals.css";
+import { Inter } from "next/font/google";
+import ActiveSectionContextProvider from "@/context/active-section-context";
+import Footer from "@/components/footer";
+import ThemeSwitch from "@/components/theme-switch";
+import ThemeContextProvider from "@/context/theme-context";
+import { Toaster } from "react-hot-toast";
+import { jsonLdScriptProps } from "react-schemaorg";
+import { Person, WithContext } from "schema-dts";
+import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
+import GoogleAnalytics from "@/components/seo/googleAnalitics";
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL("hhttps://portfolio-site-chinnas-projects-8fa3da0b.vercel.app/"),
+  title: {
+    default: "Obaiah Mopuri | Full-Stack Developer Portfolio",
+    template: "%s | Obaiah Mopuri",
+  },
+  description:
+    "Experienced full-stack developer specializing in React, Next.js, Node.js, and MongoDB. View my projects, skills, and experience in web development.",
+  keywords: [
+    "Obaiah Mopuri",
+    "Full-Stack Developer",
+    "React Developer",
+    "Next.js Developer",
+    "Web Developer Portfolio",
+    "JavaScript Developer",
+    "Node.js Developer",
+    "TypeScript Developer",
+  ],
+  authors: [{ name: "Obaiah Mopuri" }],
+  creator: "Obaiah Mopuri",
+  publisher: "Obaiah Mopuri",
+  alternates: {
+    canonical: "https://portfolio-site-chinnas-projects-8fa3da0b.vercel.app/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://portfolio-site-chinnas-projects-8fa3da0b.vercel.app/",
+    siteName: "Obaiah Mopuri Portfolio",
+    title: "Obaiah Mopuri | Full-Stack Developer Portfolio",
+    description:
+      "Full-stack developer with expertise in React, Next.js, Node.js, and MongoDB. Explore my projects and skills.",
+    images: [
+      {
+        url: "",
+        width: 1200,
+        height: 630,
+        alt: "Obaiah Mopuri - Full Stack Developer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "",
+    creator: "",
+    title: "Obaiah Mopuri | Full-Stack Developer Portfolio",
+    description:
+      "Full-stack developer specializing in React, Next.js, Node.js, and MongoDB. Check out my latest projects and skills.",
+    images: {
+      url: "",
+      alt: "Obaiah Mopuri - Full Stack Developer",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "tixJX-btSt1zSdFJ21DuoQqWohs7sgpfFErKcpex6Cw",
+    yandex: "45000ae613ca40e4",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Obaiah Mopuri",
+    url: "https://portfolio-site-chinnas-projects-8fa3da0b.vercel.app/",
+    image:
+      "",
+    jobTitle: "Full Stack Developer",
+    worksFor: {
+      "@type": "Organization",
+      name: "WebCastle Media",
+    },
+    description:
+      "Full-stack developer specializing in React, Next.js, Node.js, and MongoDB",
+    sameAs: [ 
+    ],
+  };
+
+  return (
+    <html lang="en" className="!scroll-smooth">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href="https://portfolio-site-chinnas-projects-8fa3da0b.vercel.app/" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+        <script
+          {...jsonLdScriptProps<Person>(
+            structuredData as unknown as WithContext<Person>
+          )}
+          type="application/ld+json"
+        />
+        <GoogleAnalytics />
+      </head>
+      <body
+        className={`${inter.className} bg-gray-50 text-gray-950 relative pt-28 sm:pt-36 dark:bg-gray-900 dark:text-gray-50 dark:text-opacity-90`}
+      >
+        <>
+          <div className="bg-[#fbe2e3] absolute top-[-6rem] -z-10 right-[11rem] h-[31.25rem] w-[31.25rem] rounded-full blur-[10rem] sm:w-[68.75rem] dark:bg-[#946263]"></div>
+          <div className="bg-[#dbd7fb] absolute top-[-1rem] -z-10 left-[-35rem] h-[31.25rem] w-[50rem] rounded-full blur-[10rem] sm:w-[68.75rem] md:left-[-33rem] lg:left-[-28rem] xl:left-[-15rem] 2xl:left-[-5rem] dark:bg-[#676394]"></div>
+
+          <ThemeContextProvider>
+            <ActiveSectionContextProvider>
+              <Header />
+              <main>{children}</main>
+              <Footer />
+              <Toaster position="top-right" />
+              <ThemeSwitch />
+            </ActiveSectionContextProvider>
+          </ThemeContextProvider>
+          <Analytics />
+        </>
+      </body>
+    </html>
+  );
+}
